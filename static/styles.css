@@ -1,0 +1,126 @@
+:root {
+  --bg: #f4f6f8;
+  --card: #ffffff;
+  --text: #1f2933;
+  --muted: #6b7280;
+  --primary: #0f766e;
+  --danger: #b91c1c;
+  --border: #dde3ea;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text);
+  background: linear-gradient(180deg, #edf5f4 0%, var(--bg) 30%);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: #083c3a;
+  color: #fff;
+}
+
+.topbar h1 { margin: 0; font-size: 1.4rem; }
+
+.container {
+  max-width: 980px;
+  margin: 20px auto;
+  padding: 0 14px 40px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.grid.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.grid.stats h3 { margin: 6px 0 0; }
+.grid.stats p { margin: 0; color: var(--muted); }
+
+.row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.wrap { flex-wrap: wrap; }
+
+.stack {
+  display: grid;
+  gap: 8px;
+  max-width: 360px;
+}
+
+input, select, button {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 0.95rem;
+}
+
+button {
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+}
+
+button.secondary { background: #475569; }
+button.danger { background: var(--danger); }
+button:hover { opacity: 0.93; }
+
+.hidden { display: none !important; }
+.msg { color: var(--danger); min-height: 20px; }
+
+.tableWrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  border-bottom: 1px solid var(--border);
+  padding: 10px 8px;
+  text-align: left;
+  font-size: 0.92rem;
+}
+
+.bars {
+  display: grid;
+  gap: 8px;
+}
+.barRow {
+  display: grid;
+  grid-template-columns: 130px 1fr 90px;
+  gap: 8px;
+  align-items: center;
+}
+.barTrack {
+  width: 100%;
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.barFill {
+  height: 100%;
+  background: #0f766e;
+}
+
+@media (max-width: 760px) {
+  .grid.stats { grid-template-columns: 1fr; }
+  .barRow { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinTrack</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>FinTrack</h1>
+    <div id="userArea"></div>
+  </header>
+
+  <main class="container">
+    <section id="authCard" class="card">
+      <h2>Login</h2>
+      <form id="loginForm" class="stack">
+        <input type="email" id="loginEmail" placeholder="Email" required />
+        <input type="password" id="loginPassword" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
+
+      <h3>Create account</h3>
+      <form id="registerForm" class="stack">
+        <input type="email" id="registerEmail" placeholder="Email" required />
+        <input type="password" id="registerPassword" placeholder="Password (min 6 chars)" required />
+        <button type="submit">Register</button>
+      </form>
+      <p id="authMsg" class="msg"></p>
+    </section>
+
+    <section id="app" class="hidden">
+      <section class="card grid stats">
+        <div>
+          <p>Income</p>
+          <h3 id="incomeVal">0.00</h3>
+        </div>
+        <div>
+          <p>Expense</p>
+          <h3 id="expenseVal">0.00</h3>
+        </div>
+        <div>
+          <p>Net</p>
+          <h3 id="netVal">0.00</h3>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Budget</h2>
+        <div class="row">
+          <input type="month" id="budgetMonth" />
+          <input type="number" step="0.01" min="0" id="budgetAmount" placeholder="Monthly budget" />
+          <button id="saveBudgetBtn">Save Budget</button>
+        </div>
+        <p id="budgetSummary">No budget set.</p>
+      </section>
+
+      <section class="card">
+        <h2>Add / Edit Transaction</h2>
+        <form id="txForm" class="row wrap">
+          <select id="txType" required>
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+          </select>
+          <input type="number" step="0.01" min="0.01" id="txAmount" placeholder="Amount" required />
+          <input type="date" id="txDate" required />
+          <select id="txCategory" required></select>
+          <input type="text" id="txNote" placeholder="Note (optional)" />
+          <button type="submit" id="txSubmitBtn">Add Transaction</button>
+          <button type="button" id="txCancelEdit" class="secondary hidden">Cancel Edit</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Filters</h2>
+        <div class="row wrap">
+          <input type="date" id="filterStart" />
+          <input type="date" id="filterEnd" />
+          <select id="filterCategory"><option value="">All Categories</option></select>
+          <button id="applyFiltersBtn">Apply</button>
+          <button id="resetFiltersBtn" class="secondary">Reset</button>
+          <button id="exportBtn" class="secondary">Export CSV</button>
+          <button id="logoutBtn" class="danger">Logout</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Expense by Category (Current Month)</h2>
+        <div id="categoryBars" class="bars"></div>
+      </section>
+
+      <section class="card">
+        <h2>Transactions</h2>
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Note</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="txTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <p id="appMsg" class="msg"></p>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
