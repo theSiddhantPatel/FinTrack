@@ -10,7 +10,7 @@ FinTrack is a full-stack personal finance tracker for managing income, expenses,
 
 ## Core Features
 
-- User authentication (register/login/me)
+- User authentication (register/login/me/google)
 - Transaction CRUD (income and expense)
 - Category management (default + custom categories)
 - Monthly budget tracking with utilization percentage
@@ -44,41 +44,48 @@ PORT=5000
 MONGO_URI=mongodb://127.0.0.1:27017/fintrack
 JWT_SECRET=replace_with_a_strong_secret
 CLIENT_URL=http://localhost:5173
+GOOGLE_CLIENT_ID=your_google_oauth_web_client_id
 ```
 
 Optional `client/.env` (needed only if API is not proxied through Vite):
 
 ```env
 VITE_API_URL=http://localhost:5000/api
+VITE_GOOGLE_CLIENT_ID=your_google_oauth_web_client_id
 ```
 
 ## Local Development Setup
 
 1. Install server dependencies
+
 ```bash
 cd server
 npm ci
 ```
 
 2. Install client dependencies
+
 ```bash
 cd ../client
 npm ci
 ```
 
 3. Start backend (terminal 1)
+
 ```bash
 cd server
 npm run dev
 ```
 
 4. Start frontend (terminal 2)
+
 ```bash
 cd client
 npm run dev
 ```
 
 5. Open app
+
 ```text
 http://localhost:5173
 ```
@@ -86,10 +93,12 @@ http://localhost:5173
 ## Available Scripts
 
 In `server/`:
+
 - `npm run dev` - start API with nodemon
 - `npm start` - start API with node
 
 In `client/`:
+
 - `npm run dev` - start Vite dev server
 - `npm run build` - production build
 - `npm run preview` - preview production build locally
@@ -101,6 +110,7 @@ Base URL: `http://localhost:5000/api`
 - `GET /health`
 - `POST /auth/register`
 - `POST /auth/login`
+- `POST /auth/google`
 - `GET /auth/me`
 - `GET /transactions`
 - `POST /transactions`
@@ -123,6 +133,7 @@ Authorization: Bearer <jwt_token>
 
 - Default categories are auto-seeded by the backend.
 - Frontend stores JWT token in local storage (`fintrack_token`).
+- Google Sign-In uses Google Identity Services in the browser, then exchanges the Google credential for the app JWT.
 - If frontend fails due to missing packages, run `npm ci` inside `client/` again.
 
 ## License

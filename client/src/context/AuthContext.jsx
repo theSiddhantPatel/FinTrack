@@ -34,6 +34,13 @@ export const AuthProvider = ({ children }) => {
     return data.user;
   };
 
+  const loginWithGoogle = async (credential) => {
+    const { data } = await api.post("/auth/google", { credential });
+    localStorage.setItem("fintrack_token", data.token);
+    setUser(data.user);
+    return data.user;
+  };
+
   const register = async (email, password) => {
     const { data } = await api.post("/auth/register", { email, password });
     localStorage.setItem("fintrack_token", data.token);
@@ -47,7 +54,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   const value = useMemo(
-    () => ({ user, loading, isAuthenticated: Boolean(user), login, register, logout }),
+    () => ({
+      user,
+      loading,
+      isAuthenticated: Boolean(user),
+      login,
+      loginWithGoogle,
+      register,
+      logout,
+    }),
     [user, loading]
   );
 

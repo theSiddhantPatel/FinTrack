@@ -11,7 +11,16 @@ const userSchema = new mongoose.Schema(
     },
     password_hash: {
       type: String,
-      required: true,
+      default: null,
+    },
+    provider: {
+      type: String,
+      enum: ["local", "google"],
+      default: "local",
+    },
+    google_id: {
+      type: String,
+      default: null,
     },
     created_at: {
       type: Date,

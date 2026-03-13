@@ -1,13 +1,77 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useAuth from "../hooks/useAuth";
 
 const RegisterPage = () => {
-  const { register } = useAuth();
+  const { register, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "", confirmPassword: "" });
   const [loading, setLoading] = useState(false);
+  const googleButtonRef = useRef(null);
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+  useEffect(() => {
+    if (!googleClientId || !googleButtonRef.current) {
+      return undefined;
+    }
+
+    let isCancelled = false;
+    let intervalId = null;
+
+    const initializeGoogleButton = () => {
+      if (isCancelled || !window.google?.accounts?.id || !googleButtonRef.current) {
+        return false;
+      }
+
+      window.google.accounts.id.initialize({
+        client_id: googleClientId,
+        callback: async (response) => {
+          if (!response.credential) {
+            toast.error("Google sign up failed");
+            return;
+          }
+
+          setLoading(true);
+          try {
+            await loginWithGoogle(response.credential);
+            toast.success("Account created");
+            navigate("/dashboard");
+          } catch (error) {
+            toast.error(error.response?.data?.message || "Google sign up failed");
+          } finally {
+            setLoading(false);
+          }
+        },
+      });
+
+      googleButtonRef.current.innerHTML = "";
+      window.google.accounts.id.renderButton(googleButtonRef.current, {
+        theme: "outline",
+        size: "large",
+        text: "signup_with",
+        shape: "pill",
+        width: googleButtonRef.current.offsetWidth || 360,
+      });
+
+      return true;
+    };
+
+    if (!initializeGoogleButton()) {
+      intervalId = window.setInterval(() => {
+        if (initializeGoogleButton() && intervalId) {
+          window.clearInterval(intervalId);
+        }
+      }, 300);
+    }
+
+    return () => {
+      isCancelled = true;
+      if (intervalId) {
+        window.clearInterval(intervalId);
+      }
+    };
+  }, [googleClientId, loginWithGoogle, navigate]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -60,6 +124,20 @@ const RegisterPage = () => {
             {loading ? "Creating..." : "Create Account"}
           </button>
         </form>
+
+        <div className="my-4 flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">
+          <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
+          <span>or</span>
+          <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
+        </div>
+
+        {googleClientId ? (
+          <div ref={googleButtonRef} className="flex min-h-11 justify-center" />
+        ) : (
+          <p className="text-sm text-slate-500 dark:text-slate-300">
+            Add <code>VITE_GOOGLE_CLIENT_ID</code> to enable Google sign up.
+          </p>
+        )}
 
         <p className="mt-4 text-sm text-slate-500 dark:text-slate-300">
           Already have an account? <Link to="/login" className="text-emerald-600">Sign in</Link>
