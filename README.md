@@ -1,3 +1,5 @@
+<img width="1909" height="984" alt="image" src="https://github.com/user-attachments/assets/11e7f74d-981e-4f57-98a7-5f4e8b7557d0" />
+
 # FinTrack
 
 FinTrack is a full-stack personal finance tracker for managing income, expenses, monthly budgets, and category-based insights.
