@@ -1,3 +1,4 @@
+
 # FinTrack
 
 FinTrack is a full-stack personal finance tracker for managing income, expenses, monthly budgets, and category-based insights.
